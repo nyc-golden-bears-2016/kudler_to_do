@@ -2,22 +2,18 @@ class DeleteButton extends React.Component{
 
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleSubmit(event) {
+  handleDelete(event) {
     event.preventDefault();
-    let textArea = this.refs.taskTextarea,
-        name = textArea.value;
+    var id = this.props.id
     $.ajax({
-      url: '/tasks',
-      method: 'POST',
-      data: { task: { name: name } }
+      url: `/tasks/${id}`,
+      method: 'DELETE'
     })
     .done((response) => {
-      console.log(response)
-      this.props.onAddTask(response);
-      textArea.value = '';
+      this.props.onRemoveTask(response);
     })
   }
 
@@ -25,8 +21,7 @@ class DeleteButton extends React.Component{
   render() {
     return (
 
-        <form id="task-form" onSubmit={this.handleSubmit}>
-          <input type="hidden" name="_method" value="DELETE"/>
+        <form id="delete-form" onSubmit={this.handleDelete}>
           <input type = "submit" value="Delete Task"/>
         </form>
     );
@@ -34,3 +29,4 @@ class DeleteButton extends React.Component{
 
 
 }
+

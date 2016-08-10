@@ -2,10 +2,7 @@ class TasksController < ApplicationController
 
   def index
     tasks = Task.all
-    respond_to do |format|
-      format.html
-      format.json { render json: tasks }
-    end
+    render json: tasks
   end
 
   def create
@@ -18,6 +15,9 @@ class TasksController < ApplicationController
   end
 
   def destroy
+    task = Task.find(params[:id])
+    task.destroy
+    render json: task.to_json
   end
 
 
